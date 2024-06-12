@@ -1,0 +1,190 @@
+<!-- This is a static file -->
+<!-- served from  routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Six Hats Engine</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <!-- import font -->
+    <style>
+      @import
+      url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:ital,wght@0,300..700;1,300..700&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap')
+    </style>
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/client.js" defer></script>
+    
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content" role="main">
+
+        <!-- This is the start of content for our page -->
+        <h1 class="title">Six Hats Engine</h1>
+
+        <div class="prompt-form">
+
+          <!-- default paragraph/message -->
+          <p>
+            Submit your problem statement and idea to the Hats; afterwards, check in with each each Hat individually to hear each agent's perspective. The Blue Hat will remember everything that has been said so far, and will provide a big-picture summary of all existing perspectives.
+          </p>
+          <p>
+            The problem statement should be a mission that your design or product idea  has been created to address; e.g., "improving the wellbeing of people who work in a mobile environment".
+          </p>
+          
+          <!--form action="/abc" method="post">
+            <textarea id="test" name="test" required="required"></textarea>
+            <button id="test-submit" name="test-submit" type="submit">
+              submit
+            </button>
+          </form-->
+
+          <!-- The "Problem statement:" form sends a POST request to the server
+               Check server.js to see how it works -->
+          <form id="prompt" action="/abc" method="post" onsubmit="showHats()">
+            <div>
+              <textarea
+                id="problem"
+                name="problem"
+                required="required"
+                rows="3"
+                placeholder="Problem statement here"
+              ></textarea>
+              <textarea
+                id="idea"
+                name="idea"
+                required="required"
+                rows="3"
+                placeholder="Idea here"
+              ></textarea>
+            </div>
+            <!-- If the user submits a value through the form 
+                 it'll be passed to the server in the request body  -->
+            <button id="submit" type="submit">Submit</button>
+          </form>
+
+        </div>
+
+        <div id="hats-grid">
+          <div class="hat" id="white">
+            <h2>
+            <div class="tooltip">White Hat
+              <span class="tooltiptext"><p>
+                an analytical agent focused only on providing facts without judgement: information we know, information we need to know, and technical details</p></span>
+            </div> 
+            </h2>
+            <p>
+              the analytical agent
+            </p>
+            <button type="button" class="load-hat" id="load-white">
+              Check In
+            </button>
+            <div class="output">
+              
+            </div>
+          </div>
+          <div class="hat" id="red">
+            <h2>
+            <div class="tooltip">Red Hat
+              <span class="tooltiptext"><p>
+                focused on the emotional perspective: empathizing with the fears, likes, dislikes, loves, and hates of the intended user</p></span>
+            </div> 
+            </h2>
+            <p>
+              the emotional agent
+            </p>
+            <button type="button" class="load-hat" id="load-red">
+              Check In
+            </button>
+            <div class="output">
+
+            </div>
+          </div>
+          <div class="hat" id="black">
+            <h2>
+            <div class="tooltip">Black Hat
+              <span class="tooltiptext"><p>
+                a pessimistic, critical agent who is concerned with risks, difficulties, and problems</p></span>
+            </div> 
+            </h2>
+            <p>
+              the pessimistic agent
+            </p>
+            <button type="button" class="load-hat" id="load-black">
+              Check In
+            </button>
+            <div class="output">
+
+            </div>
+          </div>
+          <div class="hat" id="yellow">
+            <h2>
+            <div class="tooltip">Yellow Hat
+              <span class="tooltiptext"><p>
+                an optimistic, positive agent who looks at the positive aspects and probes for value and benefit</p></span>
+            </div> 
+            </h2>
+            <p>
+              the optimistic agent
+            </p>
+            <button type="button" class="load-hat" id="load-yellow">
+              Check In
+            </button>
+            <div class="output">
+
+            </div>
+          </div>
+          <div class="hat" id="green">
+            <h2>
+            <div class="tooltip">Green Hat
+              <span class="tooltiptext"><p>
+                an optimistic, positive agent who looks at the positive aspects and probes for value and benefit</p></span>
+            </div> 
+            </h2>
+            <p>
+              the creative agent
+            </p>
+            <button type="button" class="load-hat" id="load-green">
+              Check In
+            </button>
+            <div class="output">
+
+            </div>
+          </div>
+          <div class="hat" id="blue">
+            <h2>
+            <div class="tooltip">Blue Hat
+              <span class="tooltiptext"><p>
+                a big-picture agent that considers all the information and synthesizes the other perspectives</p></span>
+            </div> 
+            </h2>
+            <p>
+              the big picture agent
+            </p>
+            <button type="button" class="load-hat" id="load-blue">
+              Check In
+            </button>
+            <div class="output">
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div> 
+    <script src="https://cdn.jsdelivr.net/npm/openai@4.28.4/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/fs-js@1.0.6/index.min.js"></script> 
+  </body>
+</html>
